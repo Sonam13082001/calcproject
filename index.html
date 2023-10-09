@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      * {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+.main {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(59, 70, 100, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.upper {
+    width: 420px;
+    height: 100px;
+    background: rgba(24, 31, 50, 1);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 0.5rem;
+    color: aliceblue;
+    text-align: right;
+    padding: 1rem;
+    font-family: Segoe UI;
+    font-size: 4rem;
+    font-weight: bold;
+    letter-spacing: 0.3rem;
+}
+
+.lower {
+    position: relative;
+    border-radius: 0.5rem;
+    width: 420px;
+    height: 420px;
+    background: rgba(37, 45, 68, 1);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.buttons {
+    width: 100%;
+    height: 100%;
+    padding: 25px 20px;
+    display: grid;
+    column-gap: 15px;
+    row-gap: 15px;
+}
+
+.btn {
+    
+    width: 85px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 15px;
+    border: none;
+    background: rgba(234, 227, 219, 1);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: rgba(59, 70, 100, 1);
+    font-family: Inter;
+    font-weight: bold;
+    font-size: 20px;
+
+}
+
+#reset {
+    grid-row: 5;
+    grid-column: 1/3;
+    width: 185px;
+    background: rgba(100, 114, 153, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+#equal {
+    grid-row: 5;
+    grid-column: 3/5;
+    width: 185px;
+    background: rgba(209, 63, 48, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+#delete {
+    background: rgba(100, 114, 153, 1);
+    color: rgba(255, 255, 255, 1);
+}
+
+@media screen and (max-width: 426px) {
+    .upper {
+        font-size: 3rem;
+        letter-spacing: 0.1rem;
+        width: 300px;
+        height: 100px;
+    }
+
+    .lower {
+        width: 300px;
+        height: 300px;
+    }
+
+    .buttons {
+        padding: 15px 10px;
+        display: grid;
+        column-gap: 10px;
+        row-gap: 10px;
+
+    }
+
+    .btn {
+        width: 60px;
+        height: 46px;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+
+    #reset, #equal {
+        width: 130px;
+    }
+}
+    </style>
+</head>
+<body class="main">
+    Calc
+    <input type="text" class="upper display" value="" placeholder="0" readonly><br>
+    <div class="lower">
+        <div class="buttons">
+            <button class="btn" value="7">7</button>
+            <button class="btn" value="8">8</button>
+            <button class="btn" value="9">9</button>
+            <button class="btn" value="del" id="delete" >DEL</button>
+            <button class="btn" value="4">4</button>
+            <button class="btn" value="5">5</button>
+            <button class="btn" value="6">6</button>
+            <button class="btn" value="+">+</button>
+            <button class="btn" value="1">1</button>
+            <button class="btn" value="2">2</button>
+            <button class="btn" value="3">3</button>
+            <button class="btn" value="-">-</button>
+            <button class="btn" value=".">.</button>
+            <button class="btn" value="0">0</button>
+            <button class="btn" value="/">/</button>
+            <button class="btn" value="*">x</button>
+            <button class="btn" value="res" id="reset">RESET</button>
+            <button class="btn" value="=" id="equal">=</button>
+        </div>
+    </div>
+         
+    <script>
+        let output = "";
+let display = document.querySelector(".display");
+let buttons = document.querySelectorAll('.btn');
+let spclChars = ["+","/","*",".","res","del","="];
+let result;
+
+const evaluate = (btnValue)=>{    
+    if(btnValue === "del"){
+        if(output !== result){
+            output = output.toString().slice(0, -1);
+        }else{
+            output = "";
+        }
+    }else if(btnValue === "res"){
+        output = "";
+    }else if(btnValue === "="){
+        result = eval(output);
+        output = result;
+    }else if(spclChars.includes(btnValue) && output === ""){
+        result = "Bad Input!";
+        output = result;
+    }else{
+        output += btnValue;
+    }
+    display.value = output;
+}
+
+//for display
+Array.from(buttons).forEach((button)=>{
+    button.addEventListener('click', (item)=>{
+        evaluate(item.target.value);
+    })
+})
+
+    </script>
+</body>
+</html>
